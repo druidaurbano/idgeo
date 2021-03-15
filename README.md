@@ -19,7 +19,7 @@ Se você conseguiu acessar a aplicação em [http://127.0.0.1:8081/](http://127.
 
 ### Objetivo 2
 
-A aplicação utiliza uma classe chamada `Controller` para controlar a intercace. Nessa classe constam os métodos repsonsáveis por inicializar o SVG retangular na tela e desenhar a *bounding box* do mapa. A classe `Map` corresponde a um mapa hipotético com algumas características e funções importantes. As duas classes podem ser encontradas no arquivo `models.js`. A documentação contida diretamente nos arquivos descrevem em detalhes as partes de cada uma das classes. *Dê uma lida.*
+A aplicação utiliza uma classe chamada `Controller` para controlar a interface. Nessa classe constam os métodos repsonsáveis por inicializar o SVG retangular na tela e desenhar a *bounding box* do mapa. A classe `Map` corresponde a um mapa hipotético com algumas características e funções importantes. As duas classes podem ser encontradas no arquivo `models.js`. A documentação contida diretamente nos arquivos descrevem em detalhes as partes de cada uma das classes. *Dê uma lida.*
 
 Para que a aplicação funcione corretamente, **você precisa exibir todos os pontos contidos no arquivo `data.json` na tela**. A função `Map.getPoints()` pode carregá-los e a função `Controller.drawPoint()` está preparada para desenhar um ponto na tela. Escreva uma função `renderPoints()` na classe Map para resolver esse objetivo.
 

@@ -28,7 +28,7 @@ export class Map {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            this.points = JSON.parse(xhttp.responseText);
+            this.points = JSON.parse(xhttp.responseText);            
              resolve(this.points);
           }
       };
@@ -72,6 +72,7 @@ export class Controller {
       throw `Erro: mapa com seletor ${id} não encontrado.`
     //  Instancia um novo Mapa com alguns dados
     this.map = new Map('Pontos', [[130, 30], [370, 30], [370, 270], [130, 270]]);
+    //console.log(this.map)
   }
 
   /**
@@ -86,12 +87,15 @@ export class Controller {
     for (const point of this.map.boudingBox) {
       points += point.join(',') + ' ';
     }
+    
     polygon.classList.add('bbox');
     polygon.setAttribute('points', points);
     this.mapObject.appendChild(polygon);
+    
 
     this.addEvents();
 
+    // adicionado o parâmetro polygon a ser passado
     this.renderPoints();
   }
 
@@ -123,6 +127,28 @@ export class Controller {
   /**  Renderiza os pontos carregados no Mapa */
   renderPoints() {
     //   PROGRAME AQUI :)
+    
+    // acessar o data.json(feito)
+    // transformar pra objeto(feito)
+    // chamar draw Point passando ele(feito)
+    let allPoints = this.map.getPoints();
+    allPoints
+      .then(points => {
+        // console.log('points',points)
+        points = Object.values(points)
+        for(let point of points){
+          // console.log('for',point)
+            for( let innnerPoint of point){
+              // console.log('innerPoint', innnerPoint)
+              this.drawPoint(innnerPoint)
+            }
+        }
+    });
+
+     
+    
+    console.log('map: ',this.map.dataURL)
+    //this.drawPoint({x: 10, y: 10})
   }
 
   /**
