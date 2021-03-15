@@ -106,6 +106,9 @@ export class Controller {
     document.querySelector('#btn-filtro-outside').addEventListener('click', this.btnFiltroOutsideClick);
   }
 
+  // verificar qual botão está marcado
+  // escolher os botões para serem printados
+
   btnFiltroTodosClick = () => {
     // Evento de clique do botão de filtro "Mostrar todos"
     document.querySelector('.button.selected')?.classList.remove('selected');
@@ -144,11 +147,6 @@ export class Controller {
             }
         }
     });
-
-     
-    
-    console.log('map: ',this.map.dataURL)
-    //this.drawPoint({x: 10, y: 10})
   }
 
   /**
@@ -172,5 +170,7 @@ export class Controller {
     circle.setAttribute('fill', 'black');
     //  Adiciona o novo ponto ao SVG
     this.mapObject.appendChild(circle);
+
+    console.log('mapObject', this.mapObject);
   }
 }
