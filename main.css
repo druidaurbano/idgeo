@@ -1,3 +1,7 @@
+:root {
+  --background-color: #d0d0d0;
+}
+
 html {
   height: 100%;
   width: 100%;
@@ -39,7 +43,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   border-radius: 6px;
-  background: #d0d0d0;
+  background: var(--background-color);
 }
 
 .bbox {

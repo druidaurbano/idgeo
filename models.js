@@ -96,7 +96,7 @@ export class Controller {
     this.addEvents();
 
     // adicionado o parâmetro polygon a ser passado
-    this.renderPoints();
+    this.renderAllPoints();
   }
 
   /** Registra eventos de cliques para os botões de filtro */
@@ -113,22 +113,25 @@ export class Controller {
     // Evento de clique do botão de filtro "Mostrar todos"
     document.querySelector('.button.selected')?.classList.remove('selected');
     document.querySelector('#btn-filtro-todos').classList.add('selected');
+    this.renderAllPoints();
   }
 
   btnFiltroInsideClick = () => {
     // Evento de clique do botão de filtro "Mostrar apenas do mapa"
     document.querySelector('.button.selected')?.classList.remove('selected');
     document.querySelector('#btn-filtro-inside').classList.add('selected');
+    this.renderInsidePoints();
   }
 
   btnFiltroOutsideClick = () => {
     // Evento de clique do botão de filtro "Mostrar apenas pontos fora do mapa"
     document.querySelector('.button.selected')?.classList.remove('selected');
     document.querySelector('#btn-filtro-outside').classList.add('selected');
+    this.renderOutsidePoints();
   }
 
   /**  Renderiza os pontos carregados no Mapa */
-  renderPoints() {
+  renderAllPoints() {
     //   PROGRAME AQUI :)
     
     // acessar o data.json(feito)
@@ -142,11 +145,61 @@ export class Controller {
         for(let point of points){
           // console.log('for',point)
             for( let innnerPoint of point){
-              // console.log('innerPoint', innnerPoint)
+              console.log('innerPoint', innnerPoint.x, innnerPoint.y)
               this.drawPoint(innnerPoint)
+              // caso estejam dentro da área ou no limite da borda
+              /*if(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270){
+                this.drawPoint(innnerPoint)
+              } /*else {    //caso estejam fora da área selecionada
+                this.drawPointRed(innnerPoint)
+              }*/
             }
         }
     });
+  }
+
+  renderInsidePoints() {
+    let allPoints = this.map.getPoints();
+    allPoints
+      .then(points => {
+        // console.log('points',points)
+        points = Object.values(points)
+        for(let point of points){
+          // console.log('for',point)
+            for( let innnerPoint of point){
+              console.log('innerPoint', innnerPoint.x, innnerPoint.y)
+              // caso estejam dentro da área ou no limite da borda
+              if(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270){
+                this.drawPoint(innnerPoint)
+              } else {    //caso estejam fora da área selecionada
+                this.drawInvisiblePoint(innnerPoint)
+              }
+            }
+        }
+    });
+
+  }
+
+  renderOutsidePoints() {
+    let allPoints = this.map.getPoints();
+    allPoints
+      .then(points => {
+        // console.log('points',points)
+        points = Object.values(points)
+        for(let point of points){
+          // console.log('for',point)
+            for( let innnerPoint of point){
+              console.log('innerPoint', innnerPoint.x, innnerPoint.y)
+              // caso estejam dentro da área ou no limite da borda
+              if(!(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270)){
+                this.drawPoint(innnerPoint)
+              } else {    //caso estejam fora da área selecionada
+                this.drawInvisiblePoint(innnerPoint)
+              }
+            }
+        }
+    });
+
   }
 
   /**
@@ -171,6 +224,26 @@ export class Controller {
     //  Adiciona o novo ponto ao SVG
     this.mapObject.appendChild(circle);
 
-    console.log('mapObject', this.mapObject);
+   // console.log('mapObject', this.mapObject);
   }
+
+  drawInvisiblePoint(point) {
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    let points = '';
+    for (const point of this.map.boudingBox) {
+      points += point.join(',') + ' ';
+    }
+    //  Adiciona uma classe de referência para o ponto
+    circle.classList.add('map__point');
+    //  Seta o atributo x do círculo
+    circle.setAttribute('cx', point.x);
+    //  Seta o atributo y do círculo
+    circle.setAttribute('cy', point.y);
+    //  Seta o raio do círculo em 5
+    circle.setAttribute('r', 6);
+    circle.setAttribute('fill', 'var(--background-color)');
+    //  Adiciona o novo ponto ao SVG
+    this.mapObject.appendChild(circle);
+  }
+
 }
