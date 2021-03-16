@@ -113,7 +113,8 @@ export class Controller {
     // Evento de clique do botão de filtro "Mostrar todos"
     document.querySelector('.button.selected')?.classList.remove('selected');
     document.querySelector('#btn-filtro-todos').classList.add('selected');
-    this.renderAllPoints();
+    this.erasePoint()
+    this.renderAllPoints()
   }
 
   btnFiltroInsideClick = () => {
@@ -137,6 +138,7 @@ export class Controller {
     // acessar o data.json(feito)
     // transformar pra objeto(feito)
     // chamar draw Point passando ele(feito)
+    
     let allPoints = this.map.getPoints();
     allPoints
       .then(points => {
@@ -145,7 +147,7 @@ export class Controller {
         for(let point of points){
           // console.log('for',point)
             for( let innnerPoint of point){
-              console.log('innerPoint', innnerPoint.x, innnerPoint.y)
+              //console.log('innerPoint', innnerPoint.x, innnerPoint.y)
               this.drawPoint(innnerPoint)
             }
         }
@@ -154,6 +156,7 @@ export class Controller {
 
   // renderiza os pontos dentro do mapa
   renderInsidePoints() {
+    this.erasePoint();
     let allPoints = this.map.getPoints();
     allPoints
       .then(points => {
@@ -161,13 +164,14 @@ export class Controller {
         points = Object.values(points)
         for(let point of points){
           // console.log('for',point)
+            for(let innerPoint of point) {
+              this.erasePoint(innerPoint)
+            }
             for( let innnerPoint of point){
-              console.log('innerPoint', innnerPoint.x, innnerPoint.y)
+              //sconsole.log('innerPoint', innnerPoint.x, innnerPoint.y)
               // caso estejam dentro da área ou no limite da borda
               if(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270){
                 this.drawPoint(innnerPoint)
-              } else {    //caso estejam fora da área selecionada
-                this.drawInvisiblePoint(innnerPoint)
               }
             }
         }
@@ -176,6 +180,7 @@ export class Controller {
 
   // renderiza os pontos fora do mapa
   renderOutsidePoints() {
+    this.erasePoint();
     let allPoints = this.map.getPoints();
     allPoints
       .then(points => {
@@ -188,8 +193,6 @@ export class Controller {
               // caso estejam dentro da área ou no limite da borda
               if(!(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270)){
                 this.drawPoint(innnerPoint)
-              } else {    //caso estejam fora da área selecionada
-                this.drawInvisiblePoint(innnerPoint)
               }
             }
         }
@@ -218,27 +221,20 @@ export class Controller {
     circle.setAttribute('fill', 'black');
     //  Adiciona o novo ponto ao SVG
     this.mapObject.appendChild(circle);
-
-   // console.log('mapObject', this.mapObject);
+    //console.log('draw point',this.mapObject)
   }
 
-  drawInvisiblePoint(point) {
-    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    let points = '';
-    for (const point of this.map.boudingBox) {
-      points += point.join(',') + ' ';
+
+  /**
+   * Apaga todos os pontos no mapa rastreando eles através da tag html <circle>
+   */
+  erasePoint() {
+    let circle = document.querySelector('svg circle')
+    while(circle){
+    //console.log(circle)
+      this.mapObject.removeChild(circle);
+      circle = document.querySelector('svg circle')
     }
-    //  Adiciona uma classe de referência para o ponto
-    circle.classList.add('map__point');
-    //  Seta o atributo x do círculo
-    circle.setAttribute('cx', point.x);
-    //  Seta o atributo y do círculo
-    circle.setAttribute('cy', point.y);
-    //  Seta o raio do círculo em 6 pois com 5 ficava uma marca da borda preta
-    circle.setAttribute('r', 6);
-    circle.setAttribute('fill', 'var(--background-color)');
-    //  Adiciona o novo ponto ao SVG
-    this.mapObject.appendChild(circle);
   }
 
 }
