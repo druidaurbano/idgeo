@@ -147,17 +147,12 @@ export class Controller {
             for( let innnerPoint of point){
               console.log('innerPoint', innnerPoint.x, innnerPoint.y)
               this.drawPoint(innnerPoint)
-              // caso estejam dentro da área ou no limite da borda
-              /*if(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270){
-                this.drawPoint(innnerPoint)
-              } /*else {    //caso estejam fora da área selecionada
-                this.drawPointRed(innnerPoint)
-              }*/
             }
         }
     });
   }
 
+  // renderiza os pontos dentro do mapa
   renderInsidePoints() {
     let allPoints = this.map.getPoints();
     allPoints
@@ -177,9 +172,9 @@ export class Controller {
             }
         }
     });
-
   }
 
+  // renderiza os pontos fora do mapa
   renderOutsidePoints() {
     let allPoints = this.map.getPoints();
     allPoints
@@ -239,7 +234,7 @@ export class Controller {
     circle.setAttribute('cx', point.x);
     //  Seta o atributo y do círculo
     circle.setAttribute('cy', point.y);
-    //  Seta o raio do círculo em 5
+    //  Seta o raio do círculo em 6 pois com 5 ficava uma marca da borda preta
     circle.setAttribute('r', 6);
     circle.setAttribute('fill', 'var(--background-color)');
     //  Adiciona o novo ponto ao SVG
