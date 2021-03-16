@@ -168,7 +168,7 @@ export class Controller {
               this.erasePoint(innerPoint)
             }
             for( let innnerPoint of point){
-              //sconsole.log('innerPoint', innnerPoint.x, innnerPoint.y)
+              // console.log('innerPoint', innnerPoint.x, innnerPoint.y)
               // caso estejam dentro da área ou no limite da borda
               if(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270){
                 this.drawPoint(innnerPoint)
@@ -189,7 +189,7 @@ export class Controller {
         for(let point of points){
           // console.log('for',point)
             for( let innnerPoint of point){
-              console.log('innerPoint', innnerPoint.x, innnerPoint.y)
+              //console.log('innerPoint', innnerPoint.x, innnerPoint.y)
               // caso estejam dentro da área ou no limite da borda
               if(!(innnerPoint.x >= 130 && innnerPoint.x <=370 && innnerPoint.y >= 30 && innnerPoint.y <= 270)){
                 this.drawPoint(innnerPoint)
